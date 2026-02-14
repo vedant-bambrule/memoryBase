@@ -1,0 +1,13 @@
+{
+    "name": "dify-proxy-server",
+    "version": "1.0.0",
+    "description": "Proxy server for Dify API to bypass CORS",
+    "main": "proxy-server.js",
+    "scripts": {
+        "start": "node proxy-server.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5"
+    }
+}
