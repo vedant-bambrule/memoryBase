@@ -108,23 +108,23 @@ export function DocumentTable({ documents }: DocumentTableProps) {
 
                             {/* Documents List */}
                             {isExpanded && (
-                                <div className="bg-white">
+                                <div className="bg-white overflow-x-auto">
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead className="bg-gray-50">
                                             <tr>
-                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                                     Title
                                                 </th>
-                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hidden sm:table-cell">
                                                     Description
                                                 </th>
-                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                                     Status
                                                 </th>
-                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hidden md:table-cell">
                                                     Last Updated
                                                 </th>
-                                                <th scope="col" className="relative px-6 py-3">
+                                                <th scope="col" className="relative px-4 sm:px-6 py-3">
                                                     <span className="sr-only">Actions</span>
                                                 </th>
                                             </tr>
@@ -132,58 +132,58 @@ export function DocumentTable({ documents }: DocumentTableProps) {
                                         <tbody className="divide-y divide-gray-200 bg-white">
                                             {categoryDocs.map((doc) => (
                                                 <tr key={doc.id} className="hover:bg-gray-50 transition-colors">
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="flex-shrink-0 pl-6">
-                                                                <FileText className="h-5 w-5 text-gray-400" />
+                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4">
+                                                        <div className="flex items-center gap-2 sm:gap-3">
+                                                            <div className="flex-shrink-0">
+                                                                <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                                                             </div>
-                                                            <div className="flex items-center gap-2">
-                                                                <div className="text-sm font-medium text-gray-900">{doc.title}</div>
+                                                            <div className="flex items-center gap-1 sm:gap-2">
+                                                                <div className="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-[120px] sm:max-w-[200px]">{doc.title}</div>
                                                                 <div title="AI Search Enabled">
-                                                                    <Sparkles className="h-4 w-4 text-purple-500" />
+                                                                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-6 py-4">
-                                                        <div className="text-sm text-gray-500 truncate max-w-xs">{doc.description}</div>
+                                                    <td className="px-4 sm:px-6 py-4 hidden sm:table-cell">
+                                                        <div className="text-xs sm:text-sm text-gray-500 truncate max-w-[100px] sm:max-w-xs">{doc.description}</div>
                                                     </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
+                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4">
                                                         {doc.status === 'Draft' ? (
-                                                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+                                                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 sm:px-2.5 text-[10px] sm:text-xs font-medium text-amber-800">
                                                                 Draft
                                                             </span>
                                                         ) : (
-                                                            <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                                                            <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 sm:px-2.5 text-[10px] sm:text-xs font-medium text-green-800">
                                                                 Published
                                                             </span>
                                                         )}
                                                     </td>
-                                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-500 hidden md:table-cell">
                                                         {new Date(doc.lastUpdated).toLocaleDateString('en-US', {
                                                             month: 'short',
                                                             day: 'numeric',
                                                             year: 'numeric'
                                                         })}
                                                     </td>
-                                                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                                                        <div className="flex items-center justify-end gap-2">
+                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4 text-right text-xs sm:text-sm font-medium">
+                                                        <div className="flex items-center justify-end gap-1 sm:gap-2">
                                                             {/* AI Chat Icon for Document */}
                                                             <button
                                                                 onClick={(e) => handleAIClick(doc.id, e)}
-                                                                className="p-1.5 hover:bg-purple-100 rounded-md transition-colors group"
+                                                                className="p-1 sm:p-1.5 hover:bg-purple-100 rounded-md transition-colors group"
                                                                 title="Chat about this document"
                                                             >
-                                                                <MessageSquare className="h-5 w-5 text-purple-600 group-hover:text-purple-700" />
+                                                                <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600 group-hover:text-purple-700" />
                                                             </button>
                                                             {/* Download Icon */}
                                                             <a
                                                                 href={doc.fileUrl}
-                                                                className="p-1.5 hover:bg-blue-100 rounded-md transition-colors inline-flex items-center"
+                                                                className="p-1 sm:p-1.5 hover:bg-blue-100 rounded-md transition-colors inline-flex items-center"
                                                                 title="Download"
                                                                 onClick={(e) => e.stopPropagation()}
                                                             >
-                                                                <Download className="h-5 w-5 text-blue-600" />
+                                                                <Download className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                                                             </a>
                                                         </div>
                                                     </td>

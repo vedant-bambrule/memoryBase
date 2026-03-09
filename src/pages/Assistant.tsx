@@ -48,23 +48,23 @@ export function Assistant() {
             </div>
 
             {selectedDocument && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 w-full">
+                        <div className="hidden sm:flex h-10 w-10 shrink-0 rounded-lg bg-blue-100 items-center justify-center">
                             <span className="text-2xl">📄</span>
                         </div>
-                        <div>
-                            <p className="text-sm font-semibold text-blue-900">
+                        <div className="min-w-0 flex-1">
+                            <p className="text-sm font-semibold text-blue-900 truncate">
                                 Chatting about: {selectedDocument.title}
                             </p>
-                            <p className="text-xs text-blue-700">
+                            <p className="text-xs text-blue-700 truncate">
                                 {selectedDocument.category} • {selectedDocument.description}
                             </p>
                         </div>
                     </div>
                     <button
                         onClick={clearSelection}
-                        className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100 rounded-md transition-colors"
+                        className="flex items-center justify-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-700 bg-blue-100 sm:bg-transparent hover:bg-blue-200 sm:hover:bg-blue-100 rounded-md transition-colors whitespace-nowrap w-full sm:w-auto mt-2 sm:mt-0"
                     >
                         <X className="h-4 w-4" />
                         Clear

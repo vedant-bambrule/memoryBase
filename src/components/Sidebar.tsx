@@ -2,7 +2,11 @@ import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, FileText, Users, MessageSquare, BrainCircuit } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-export function Sidebar() {
+interface SidebarProps {
+    onClose?: () => void;
+}
+
+export function Sidebar({ onClose }: SidebarProps) {
     const navItems = [
         { name: 'Dashboard', path: '/', icon: LayoutDashboard },
         { name: 'Documents', path: '/documents', icon: FileText },
@@ -11,7 +15,7 @@ export function Sidebar() {
     ];
 
     return (
-        <div className="flex h-screen w-64 flex-col bg-slate-900 text-white">
+        <div className="flex h-screen w-64 flex-col bg-slate-900 text-white shadow-xl md:shadow-none">
             <div className="flex h-16 items-center gap-2 px-6 font-bold text-xl border-b border-slate-800">
                 <BrainCircuit className="h-6 w-6 text-blue-400" />
                 <span>MemoryBase</span>
@@ -22,6 +26,7 @@ export function Sidebar() {
                         key={item.path}
                         to={item.path}
                         end={item.path === '/'}
+                        onClick={onClose}
                         className={({ isActive }) =>
                             cn(
                                 "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
@@ -41,7 +46,7 @@ export function Sidebar() {
                     <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">
                         JD
                     </div>
-                    <div className="text-sm">
+                    <div className="text-sm border-r border-transparent">
                         <p className="font-medium">John Doe</p>
                         <p className="text-slate-400 text-xs">Admin</p>
                     </div>
