@@ -35,7 +35,6 @@ export function UploadModal({ isOpen, onClose, onUpload }: UploadModalProps) {
         if (e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(selectedFile);
-            // Auto-fill title from filename if empty
             if (!title) {
                 setTitle(selectedFile.name.replace(/\.[^/.]+$/, ''));
             }
@@ -59,7 +58,6 @@ export function UploadModal({ isOpen, onClose, onUpload }: UploadModalProps) {
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             const droppedFile = e.dataTransfer.files[0];
             setFile(droppedFile);
-            // Auto-fill title from filename if empty
             if (!title) {
                 setTitle(droppedFile.name.replace(/\.[^/.]+$/, ''));
             }
@@ -71,27 +69,30 @@ export function UploadModal({ isOpen, onClose, onUpload }: UploadModalProps) {
     return (
         <div className="fixed inset-0 z-50 overflow-y-auto">
             <div className="flex min-h-screen items-center justify-center p-4">
-                <div className="fixed inset-0 bg-black bg-opacity-25" onClick={onClose} />
-                <div className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-900">Upload Document</h2>
-                        <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+                <div className="fixed inset-0 bg-navy-900/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
+                <div className="relative w-full max-w-md rounded-3xl bg-white p-8 shadow-elevated animate-fade-in">
+                    <div className="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 className="text-xl font-bold text-navy-900 tracking-tight">Upload Document</h2>
+                            <p className="text-sm text-navy-400 mt-0.5">Add a new file to your knowledge base</p>
+                        </div>
+                        <button onClick={onClose} className="p-2 rounded-xl hover:bg-surface-100 transition-colors text-navy-400 hover:text-navy-600">
                             <X className="h-5 w-5" />
                         </button>
                     </div>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         {/* File Upload Area */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-navy-700 mb-2">
                                 Document File
                             </label>
                             <div
                                 onDragOver={handleDragOver}
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
-                                className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${isDragging
-                                        ? 'border-blue-500 bg-blue-50'
-                                        : 'border-gray-300 hover:border-gray-400'
+                                className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-200 ${isDragging
+                                    ? 'border-accent bg-accent-50 scale-[1.01]'
+                                    : 'border-surface-300 hover:border-indigo-300 hover:bg-surface-50'
                                     }`}
                             >
                                 <input
@@ -101,23 +102,30 @@ export function UploadModal({ isOpen, onClose, onUpload }: UploadModalProps) {
                                     accept=".pdf,.doc,.docx,.txt,.md"
                                 />
                                 {file ? (
-                                    <div className="flex items-center justify-center gap-2">
-                                        <FileText className="h-8 w-8 text-blue-600" />
+                                    <div className="flex items-center justify-center gap-3">
+                                        <div className="p-3 rounded-xl bg-indigo-50">
+                                            <FileText className="h-6 w-6 text-indigo-500" />
+                                        </div>
                                         <div className="text-left">
-                                            <p className="text-sm font-medium text-gray-900">{file.name}</p>
-                                            <p className="text-xs text-gray-500">
+                                            <p className="text-sm font-semibold text-navy-900">{file.name}</p>
+                                            <p className="text-xs text-navy-400">
                                                 {(file.size / 1024).toFixed(2)} KB
                                             </p>
                                         </div>
                                     </div>
                                 ) : (
                                     <div>
-                                        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                                        <p className="mt-2 text-sm text-gray-600">
-                                            Drag and drop your file here, or click to browse
+                                        <div className="mx-auto h-14 w-14 rounded-2xl bg-surface-100 flex items-center justify-center mb-3">
+                                            <Upload className="h-6 w-6 text-navy-400" />
+                                        </div>
+                                        <p className="text-sm font-medium text-navy-600">
+                                            Drag and drop your file here
                                         </p>
-                                        <p className="mt-1 text-xs text-gray-500">
-                                            PDF, DOC, DOCX, TXT, MD up to 10MB
+                                        <p className="mt-1 text-xs text-navy-400">
+                                            or <span className="text-indigo-500 font-semibold">click to browse</span>
+                                        </p>
+                                        <p className="mt-2 text-[10px] text-navy-300 uppercase tracking-wide font-medium">
+                                            PDF, DOC, DOCX, TXT, MD — up to 10MB
                                         </p>
                                     </div>
                                 )}
@@ -125,55 +133,58 @@ export function UploadModal({ isOpen, onClose, onUpload }: UploadModalProps) {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-navy-700 mb-1.5">
                                 Title
                             </label>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="input-field"
+                                placeholder="Document title"
                                 required
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-navy-700 mb-1.5">
                                 Description
                             </label>
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 rows={3}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="input-field resize-none"
+                                placeholder="Brief description of the document"
                                 required
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-navy-700 mb-1.5">
                                 Category
                             </label>
                             <select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="input-field"
                             >
                                 <option value="HR">HR</option>
                                 <option value="Finance">Finance</option>
                                 <option value="Operations">Operations</option>
                             </select>
                         </div>
-                        <div className="flex gap-3 justify-end mt-6">
+                        <div className="flex gap-3 justify-end pt-2">
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                                className="btn-secondary"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                                className="btn-accent"
                             >
+                                <Upload className="h-4 w-4" />
                                 Upload
                             </button>
                         </div>

@@ -18,12 +18,10 @@ export function Documents() {
 
     const loadDocuments = async () => {
         try {
-            // First, try to load from localStorage
             const savedDocs = localStorage.getItem(STORAGE_KEY);
             if (savedDocs) {
                 setDocuments(JSON.parse(savedDocs));
             } else {
-                // Fallback to mock service if no saved documents
                 const data = await getDocuments();
                 setDocuments(data);
             }
@@ -35,9 +33,7 @@ export function Documents() {
     };
 
     const saveDocuments = (docs: Document[]) => {
-        // Save to state
         setDocuments(docs);
-        // Save to localStorage for persistence
         localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
     };
 
@@ -52,17 +48,17 @@ export function Documents() {
     };
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
-                    <p className="mt-1 text-sm text-gray-500">
-                        Manage standard operating procedures and knowledge base files.
+        <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div className="page-header mb-0">
+                    <h1 className="page-title">Documents</h1>
+                    <p className="page-subtitle">
+                        Manage SOPs and knowledge base files
                     </p>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex justify-center items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 w-full sm:w-auto"
+                    className="btn-accent w-full sm:w-auto"
                 >
                     <Plus className="h-4 w-4" />
                     Upload Document
@@ -71,7 +67,10 @@ export function Documents() {
 
             {loading ? (
                 <div className="flex h-64 items-center justify-center">
-                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600"></div>
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-surface-300 border-t-indigo-500" />
+                        <p className="text-sm text-navy-400 font-medium">Loading documents...</p>
+                    </div>
                 </div>
             ) : (
                 <DocumentTable documents={documents} />

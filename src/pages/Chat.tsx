@@ -3,11 +3,11 @@ import { ChatHistory } from '../components/chat/ChatHistory';
 
 export function Chat() {
     return (
-        <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold text-gray-900">Q&A Assistant</h1>
-                <p className="mt-1 text-sm text-gray-500">
-                    Ask questions and get AI-powered answers from your knowledge base.
+        <div className="space-y-8">
+            <div className="page-header mb-0">
+                <h1 className="page-title">Q&A Assistant</h1>
+                <p className="page-subtitle">
+                    Ask questions and get AI-powered answers from your knowledge base
                 </p>
             </div>
 

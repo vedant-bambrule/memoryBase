@@ -23,17 +23,20 @@ export function Employees() {
     };
 
     return (
-        <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
-                <p className="mt-1 text-sm text-gray-500">
-                    Team member directory and information.
+        <div className="space-y-8">
+            <div className="page-header mb-0">
+                <h1 className="page-title">Employees</h1>
+                <p className="page-subtitle">
+                    Team member directory and information
                 </p>
             </div>
 
             {loading ? (
                 <div className="flex h-64 items-center justify-center">
-                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600"></div>
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-surface-300 border-t-indigo-500" />
+                        <p className="text-sm text-navy-400 font-medium">Loading employees...</p>
+                    </div>
                 </div>
             ) : (
                 <EmployeeTable employees={employees} />

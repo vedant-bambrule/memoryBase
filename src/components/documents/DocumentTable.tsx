@@ -11,7 +11,6 @@ export function DocumentTable({ documents }: DocumentTableProps) {
     const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
     const navigate = useNavigate();
 
-    // Group documents by category
     const groupedDocuments = useMemo(() => {
         const groups: Record<string, Document[]> = {};
         documents.forEach(doc => {
@@ -42,18 +41,19 @@ export function DocumentTable({ documents }: DocumentTableProps) {
     };
 
     const handleAIClick = (documentId: string, e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent row/folder click
+        e.stopPropagation();
         navigate(`/assistant/${documentId}`);
     };
 
-    // Show empty state if no documents
     if (documents.length === 0) {
         return (
-            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-                <div className="flex flex-col items-center justify-center py-12 px-6">
-                    <FileText className="h-16 w-16 text-gray-300 mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No documents yet</h3>
-                    <p className="text-sm text-gray-500 text-center max-w-sm">
+            <div className="card">
+                <div className="flex flex-col items-center justify-center py-16 px-6">
+                    <div className="p-4 rounded-2xl bg-surface-100 mb-4">
+                        <FileText className="h-12 w-12 text-navy-300" />
+                    </div>
+                    <h3 className="text-lg font-bold text-navy-900 mb-1">No documents yet</h3>
+                    <p className="text-sm text-navy-400 text-center max-w-sm">
                         Get started by uploading your first document using the "Upload Document" button above.
                     </p>
                 </div>
@@ -62,66 +62,68 @@ export function DocumentTable({ documents }: DocumentTableProps) {
     }
 
     return (
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-            <div className="divide-y divide-gray-200">
+        <div className="card overflow-hidden">
+            <div className="divide-y divide-surface-200">
                 {groupedDocuments.map(({ category, documents: categoryDocs }) => {
                     const isExpanded = expandedCategories.has(category);
 
                     return (
                         <div key={category}>
                             {/* Folder Header */}
-                            <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div className="flex items-center gap-3 px-6 py-4 bg-surface-50 hover:bg-surface-100 transition-colors">
                                 <div
                                     onClick={() => toggleCategory(category)}
-                                    className="flex items-center gap-2 flex-1 cursor-pointer"
+                                    className="flex items-center gap-2.5 flex-1 cursor-pointer"
                                 >
-                                    {isExpanded ? (
-                                        <ChevronDown className="h-4 w-4 text-gray-600" />
-                                    ) : (
-                                        <ChevronRight className="h-4 w-4 text-gray-600" />
-                                    )}
-                                    {isExpanded ? (
-                                        <FolderOpen className="h-5 w-5 text-blue-500" />
-                                    ) : (
-                                        <Folder className="h-5 w-5 text-blue-500" />
-                                    )}
-                                    <span className="text-sm font-semibold text-gray-900">{category}</span>
-                                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                                        {categoryDocs.length} {categoryDocs.length === 1 ? 'document' : 'documents'}
+                                    <div className="p-1 rounded-lg transition-transform duration-200" style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(0deg)' }}>
+                                        {isExpanded ? (
+                                            <ChevronDown className="h-4 w-4 text-navy-500" />
+                                        ) : (
+                                            <ChevronRight className="h-4 w-4 text-navy-400" />
+                                        )}
+                                    </div>
+                                    <div className="p-1.5 rounded-lg bg-indigo-50">
+                                        {isExpanded ? (
+                                            <FolderOpen className="h-4 w-4 text-indigo-500" />
+                                        ) : (
+                                            <Folder className="h-4 w-4 text-indigo-500" />
+                                        )}
+                                    </div>
+                                    <span className="text-sm font-bold text-navy-800">{category}</span>
+                                    <span className="badge-info text-[10px]">
+                                        {categoryDocs.length} {categoryDocs.length === 1 ? 'doc' : 'docs'}
                                     </span>
                                 </div>
-                                {/* AI Chat Icon for Folder */}
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        // Navigate to assistant with first document in category
                                         if (categoryDocs.length > 0) {
                                             navigate(`/assistant/${categoryDocs[0].id}`);
                                         }
                                     }}
-                                    className="p-2 hover:bg-blue-100 rounded-md transition-colors group"
+                                    className="p-2 hover:bg-indigo-50 rounded-xl transition-colors group"
                                     title="Chat about this folder"
                                 >
-                                    <MessageSquare className="h-5 w-5 text-purple-600 group-hover:text-purple-700" />
+                                    <MessageSquare className="h-4 w-4 text-indigo-400 group-hover:text-indigo-600" />
                                 </button>
                             </div>
 
                             {/* Documents List */}
                             {isExpanded && (
                                 <div className="bg-white overflow-x-auto">
-                                    <table className="min-w-full divide-y divide-gray-200">
-                                        <thead className="bg-gray-50">
+                                    <table className="min-w-full divide-y divide-surface-200">
+                                        <thead className="bg-surface-50/50">
                                             <tr>
-                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-navy-400">
                                                     Title
                                                 </th>
-                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hidden sm:table-cell">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-navy-400 hidden sm:table-cell">
                                                     Description
                                                 </th>
-                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-navy-400">
                                                     Status
                                                 </th>
-                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hidden md:table-cell">
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-navy-400 hidden md:table-cell">
                                                     Last Updated
                                                 </th>
                                                 <th scope="col" className="relative px-4 sm:px-6 py-3">
@@ -129,61 +131,53 @@ export function DocumentTable({ documents }: DocumentTableProps) {
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-gray-200 bg-white">
+                                        <tbody className="divide-y divide-surface-200 bg-white">
                                             {categoryDocs.map((doc) => (
-                                                <tr key={doc.id} className="hover:bg-gray-50 transition-colors">
+                                                <tr key={doc.id} className="hover:bg-surface-50 transition-colors group">
                                                     <td className="whitespace-nowrap px-4 sm:px-6 py-4">
                                                         <div className="flex items-center gap-2 sm:gap-3">
                                                             <div className="flex-shrink-0">
-                                                                <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+                                                                <FileText className="h-4 w-4 text-navy-300 group-hover:text-indigo-500 transition-colors" />
                                                             </div>
-                                                            <div className="flex items-center gap-1 sm:gap-2">
-                                                                <div className="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-[120px] sm:max-w-[200px]">{doc.title}</div>
-                                                                <div title="AI Search Enabled">
-                                                                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500" />
-                                                                </div>
+                                                            <div className="flex items-center gap-1.5">
+                                                                <span className="text-sm font-semibold text-navy-800 truncate max-w-[120px] sm:max-w-[200px]">{doc.title}</span>
+                                                                <Sparkles className="h-3 w-3 text-indigo-400" title="AI Search Enabled" />
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td className="px-4 sm:px-6 py-4 hidden sm:table-cell">
-                                                        <div className="text-xs sm:text-sm text-gray-500 truncate max-w-[100px] sm:max-w-xs">{doc.description}</div>
+                                                        <span className="text-sm text-navy-400 truncate block max-w-xs">{doc.description}</span>
                                                     </td>
                                                     <td className="whitespace-nowrap px-4 sm:px-6 py-4">
                                                         {doc.status === 'Draft' ? (
-                                                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 sm:px-2.5 text-[10px] sm:text-xs font-medium text-amber-800">
-                                                                Draft
-                                                            </span>
+                                                            <span className="badge-warning text-[10px]">Draft</span>
                                                         ) : (
-                                                            <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 sm:px-2.5 text-[10px] sm:text-xs font-medium text-green-800">
-                                                                Published
-                                                            </span>
+                                                            <span className="badge-success text-[10px]">Published</span>
                                                         )}
                                                     </td>
-                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-500 hidden md:table-cell">
+                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4 text-sm text-navy-400 hidden md:table-cell">
                                                         {new Date(doc.lastUpdated).toLocaleDateString('en-US', {
                                                             month: 'short',
                                                             day: 'numeric',
                                                             year: 'numeric'
                                                         })}
                                                     </td>
-                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4 text-right text-xs sm:text-sm font-medium">
-                                                        <div className="flex items-center justify-end gap-1 sm:gap-2">
-                                                            {/* AI Chat Icon for Document */}
+                                                    <td className="whitespace-nowrap px-4 sm:px-6 py-4 text-right">
+                                                        <div className="flex items-center justify-end gap-1">
                                                             <button
                                                                 onClick={(e) => handleAIClick(doc.id, e)}
-                                                                className="p-1 sm:p-1.5 hover:bg-purple-100 rounded-md transition-colors group"
+                                                                className="p-1.5 hover:bg-indigo-50 rounded-lg transition-colors"
                                                                 title="Chat about this document"
                                                             >
-                                                                <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600 group-hover:text-purple-700" />
+                                                                <MessageSquare className="h-4 w-4 text-indigo-400 hover:text-indigo-600" />
                                                             </button>
-                                                            {/* Download Icon */}
                                                             <a
                                                                 href={doc.fileUrl}
-                                                                className="p-1 sm:p-1.5 hover:bg-blue-100 rounded-md transition-colors inline-flex items-center"
+                                                                className="p-1.5 hover:bg-surface-100 rounded-lg transition-colors inline-flex items-center"
                                                                 title="Download"
                                                                 onClick={(e) => e.stopPropagation()}
                                                             >
-                                                                <Download className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+                                                                <Download className="h-4 w-4 text-navy-400 hover:text-navy-600" />
                                                             </a>
                                                         </div>
                                                     </td>

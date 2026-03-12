@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { X, FileText } from 'lucide-react';
 import { ChatInterface } from '../components/chat/ChatInterface';
 import { ChatHistory } from '../components/chat/ChatHistory';
 import { useState, useEffect } from 'react';
@@ -13,7 +13,6 @@ export function Assistant() {
 
     useEffect(() => {
         if (documentId) {
-            // Load the document details
             loadDocument(documentId);
         } else {
             setSelectedDocument(null);
@@ -37,36 +36,36 @@ export function Assistant() {
     };
 
     return (
-        <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold text-gray-900">AI Assistant</h1>
-                <p className="mt-1 text-sm text-gray-500">
+        <div className="space-y-8">
+            <div className="page-header mb-0">
+                <h1 className="page-title">AI Assistant</h1>
+                <p className="page-subtitle">
                     {selectedDocument
                         ? `Ask questions about "${selectedDocument.title}"`
-                        : 'Ask questions about your documents and get AI-powered answers'}
+                        : 'Get AI-powered answers from your knowledge base'}
                 </p>
             </div>
 
             {selectedDocument && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                <div className="card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-indigo-50 to-violet-50 border-indigo-100">
                     <div className="flex items-center gap-3 w-full">
-                        <div className="hidden sm:flex h-10 w-10 shrink-0 rounded-lg bg-blue-100 items-center justify-center">
-                            <span className="text-2xl">📄</span>
+                        <div className="hidden sm:flex h-10 w-10 shrink-0 rounded-xl bg-indigo-100 items-center justify-center">
+                            <FileText className="h-5 w-5 text-indigo-500" />
                         </div>
                         <div className="min-w-0 flex-1">
-                            <p className="text-sm font-semibold text-blue-900 truncate">
+                            <p className="text-sm font-bold text-navy-900 truncate">
                                 Chatting about: {selectedDocument.title}
                             </p>
-                            <p className="text-xs text-blue-700 truncate">
+                            <p className="text-xs text-navy-400 truncate">
                                 {selectedDocument.category} • {selectedDocument.description}
                             </p>
                         </div>
                     </div>
                     <button
                         onClick={clearSelection}
-                        className="flex items-center justify-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-700 bg-blue-100 sm:bg-transparent hover:bg-blue-200 sm:hover:bg-blue-100 rounded-md transition-colors whitespace-nowrap w-full sm:w-auto mt-2 sm:mt-0"
+                        className="btn-secondary text-xs w-full sm:w-auto"
                     >
-                        <X className="h-4 w-4" />
+                        <X className="h-3.5 w-3.5" />
                         Clear
                     </button>
                 </div>

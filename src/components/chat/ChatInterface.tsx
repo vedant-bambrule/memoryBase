@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, AlertCircle, Sparkles } from 'lucide-react';
+import { Send, AlertCircle, Sparkles, Bot } from 'lucide-react';
 import { sendMessageToDify, isDifyConfigured } from '../../services/difyService';
 
 interface ChatInterfaceProps {
@@ -28,7 +28,6 @@ export function ChatInterface({ documentTitle }: ChatInterfaceProps) {
         setResponse('');
 
         try {
-            // Add document context to the query if available
             const contextualQuery = documentTitle
                 ? `[Document: ${documentTitle}] ${question}`
                 : question;
@@ -46,25 +45,30 @@ export function ChatInterface({ documentTitle }: ChatInterfaceProps) {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center gap-2 mb-4">
-                <Sparkles className="h-5 w-5 text-purple-500" />
-                <h2 className="text-lg font-semibold text-gray-900">Ask AI Assistant</h2>
+        <div className="card p-6">
+            <div className="flex items-center gap-2.5 mb-5">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500">
+                    <Sparkles className="h-4 w-4 text-white" />
+                </div>
+                <h2 className="text-sm font-bold text-navy-900 uppercase tracking-wide">Ask AI Assistant</h2>
             </div>
 
             {!isDifyConfigured() && (
-                <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md flex items-start gap-2">
-                    <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-amber-800">
-                        Dify.ai is not configured. Please add your API credentials to the .env file.
-                    </p>
+                <div className="mb-5 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <div>
+                        <p className="text-sm font-semibold text-amber-800">API Not Configured</p>
+                        <p className="text-xs text-amber-600 mt-0.5">
+                            Add your Dify.ai API credentials to the .env file to enable AI responses.
+                        </p>
+                    </div>
                 </div>
             )}
 
             {documentTitle && (
-                <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-md">
-                    <p className="text-sm text-purple-800">
-                        <span className="font-semibold">Context:</span> Questions will be about "{documentTitle}"
+                <div className="mb-5 p-3.5 bg-indigo-50 border border-indigo-100 rounded-xl">
+                    <p className="text-sm text-indigo-700">
+                        <span className="font-bold">Context:</span> Questions will be about "{documentTitle}"
                     </p>
                 </div>
             )}
@@ -78,14 +82,14 @@ export function ChatInterface({ documentTitle }: ChatInterfaceProps) {
                             ? `Ask anything about ${documentTitle}...`
                             : "Ask anything about your documents..."}
                         rows={4}
-                        className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        className="input-field resize-none"
                         disabled={!isDifyConfigured()}
                     />
                 </div>
                 <button
                     type="submit"
                     disabled={loading || !isDifyConfigured()}
-                    className="flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="btn-accent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-soft"
                 >
                     <Send className="h-4 w-4" />
                     {loading ? 'Thinking...' : 'Send Question'}
@@ -93,24 +97,26 @@ export function ChatInterface({ documentTitle }: ChatInterfaceProps) {
             </form>
 
             {error && (
-                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                <div className="mt-5 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
                     <div>
-                        <p className="text-sm font-medium text-red-900">Error</p>
-                        <p className="text-sm text-red-700 mt-1">{error}</p>
+                        <p className="text-sm font-bold text-red-900">Error</p>
+                        <p className="text-sm text-red-600 mt-0.5">{error}</p>
                     </div>
                 </div>
             )}
 
             {response && (
-                <div className="mt-6 p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg border border-blue-100">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Sparkles className="h-4 w-4 text-purple-600" />
-                        <p className="text-sm font-semibold text-gray-900">AI Response:</p>
+                <div className="mt-6 p-5 bg-gradient-to-br from-surface-50 to-indigo-50/50 rounded-2xl border border-indigo-100">
+                    <div className="flex items-center gap-2.5 mb-3">
+                        <div className="p-1.5 rounded-lg bg-indigo-100">
+                            <Bot className="h-4 w-4 text-indigo-600" />
+                        </div>
+                        <p className="text-sm font-bold text-navy-900">AI Response</p>
                     </div>
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap">{response}</p>
+                    <p className="text-sm text-navy-600 whitespace-pre-wrap leading-relaxed">{response}</p>
                     {conversationId && (
-                        <p className="text-xs text-gray-500 mt-3">
+                        <p className="text-[10px] text-navy-300 mt-4 font-medium uppercase tracking-wide">
                             Conversation ID: {conversationId.substring(0, 8)}...
                         </p>
                     )}

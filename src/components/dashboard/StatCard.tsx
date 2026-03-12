@@ -11,14 +11,14 @@ interface StatCardProps {
 
 export function StatCard({ title, value, subtitle, icon: Icon, iconColor, iconBgColor }: StatCardProps) {
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="card hover-lift p-6 group">
             <div className="flex items-center justify-between">
                 <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-600">{title}</p>
-                    <p className="mt-2 text-3xl font-bold text-gray-900">{value}</p>
-                    <p className="mt-1 text-xs text-gray-500">{subtitle}</p>
+                    <p className="text-xs font-semibold text-navy-400 uppercase tracking-wide">{title}</p>
+                    <p className="mt-2 text-3xl font-bold text-navy-900 tracking-tight">{value}</p>
+                    <p className="mt-1.5 text-xs text-navy-400 font-medium">{subtitle}</p>
                 </div>
-                <div className={`${iconBgColor} p-3 rounded-lg`}>
+                <div className={`${iconBgColor} p-3.5 rounded-2xl transition-transform duration-300 group-hover:scale-110`}>
                     <Icon className={`h-6 w-6 ${iconColor}`} />
                 </div>
             </div>
