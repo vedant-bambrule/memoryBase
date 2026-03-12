@@ -141,7 +141,7 @@ export function DocumentTable({ documents }: DocumentTableProps) {
                                                             </div>
                                                             <div className="flex items-center gap-1.5">
                                                                 <span className="text-sm font-semibold text-navy-800 truncate max-w-[120px] sm:max-w-[200px]">{doc.title}</span>
-                                                                <Sparkles className="h-3 w-3 text-indigo-400" title="AI Search Enabled" />
+                                                                <Sparkles className="h-3 w-3 text-indigo-400" />
                                                             </div>
                                                         </div>
                                                     </td>
