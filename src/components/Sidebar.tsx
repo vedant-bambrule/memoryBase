@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, FileText, Users, MessageSquare, BrainCircuit, LogOut } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -7,12 +7,18 @@ interface SidebarProps {
 }
 
 export function Sidebar({ onClose }: SidebarProps) {
+    const navigate = useNavigate();
     const navItems = [
         { name: 'Dashboard', path: '/', icon: LayoutDashboard },
         { name: 'Documents', path: '/documents', icon: FileText },
         { name: 'Employees', path: '/employees', icon: Users },
         { name: 'AI Assistant', path: '/assistant', icon: MessageSquare },
     ];
+
+    const handleLogout = () => {
+        localStorage.removeItem('isAuthenticated');
+        navigate('/login');
+    };
 
     return (
         <div className="flex h-screen w-72 flex-col bg-navy-900 text-white font-inter">
@@ -68,7 +74,11 @@ export function Sidebar({ onClose }: SidebarProps) {
                         <p className="text-sm font-semibold text-white truncate">John Doe</p>
                         <p className="text-[11px] text-navy-400 font-medium">Admin</p>
                     </div>
-                    <button className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-navy-400 hover:text-white">
+                    <button 
+                        onClick={handleLogout}
+                        className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-navy-400 hover:text-white"
+                        title="Sign out"
+                    >
                         <LogOut className="h-4 w-4" />
                     </button>
                 </div>
